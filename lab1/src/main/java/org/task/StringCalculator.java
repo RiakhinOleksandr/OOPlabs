@@ -52,7 +52,9 @@ public class StringCalculator{
                                 neg_numbers.add(-Integer.parseInt(number));
                                 neg_number = false;
                             } else {
-                                sum += Integer.parseInt(number);
+                                if(Integer.parseInt(number) <= 1000){
+                                    sum += Integer.parseInt(number);
+                                }
                             }
                             number = "";
                         } else {
@@ -74,7 +76,9 @@ public class StringCalculator{
                     if(neg_number){
                         neg_numbers.add(-Integer.parseInt(number));
                     } else {
-                        sum += Integer.parseInt(number);
+                        if(Integer.parseInt(number) <= 1000){
+                            sum += Integer.parseInt(number);
+                        }
                     }
                 }
                 if(!neg_numbers.isEmpty()){

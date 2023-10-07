@@ -19,14 +19,8 @@ public class StringCalculatorTest {
 
     @Test
     public void CheckForOneNumber() {
-        Assertions.assertEquals(49543, str_calc.add("49543"));
+        Assertions.assertEquals(495, str_calc.add("495"));
         Assertions.assertEquals(6, str_calc.add("6"));
-    }
-
-    @Test
-    public void CheckForTwoNumbers() {
-        Assertions.assertEquals(1000, str_calc.add("199,801"));
-        Assertions.assertEquals(700, str_calc.add("300,400"));
     }
 
     @Test
@@ -53,5 +47,12 @@ public class StringCalculatorTest {
         Assertions.assertEquals(-1, str_calc.add("1,2,,3"));
         Assertions.assertEquals(-1, str_calc.add("1;2,3"));
         Assertions.assertEquals(-1, str_calc.add("-1,2,-3\n5"));
+    }
+
+    @Test
+    public void CheckForBigNumbers(){
+        Assertions.assertEquals(1003, str_calc.add("1,10001,1001,2,1000"));
+        Assertions.assertEquals(999, str_calc.add("999999\n9999\n999,999999999999"));
+        Assertions.assertEquals(0, str_calc.add("1001,1002,10003,7787878"));
     }
 }
