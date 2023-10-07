@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'org.example'
-version = '4.0'
+version = '5.0'
 
 allprojects {
     sourceCompatibility = JavaVersion.VERSION_17

@@ -3,22 +3,19 @@ package org.task;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class StringCalculator {
-
-    public static boolean error = false;
-
-    public static void main(String[] args) {
+public class StringCalculator{
+    public static void main(String[] args){
         String exit = "n";
         StringCalculator calc = new StringCalculator();
         Scanner sc = new Scanner(System.in);
         String numbers;
         System.out.println("This is a String Calculator program");
-        while (!(exit.equals("y"))) {
+        while(!(exit.equals("y"))) {
             System.out.println("Enter numbers, separated by comma or \\n symbol: ");
             numbers = sc.nextLine();
             numbers = numbers.replace("\\n", "\n");
             int sum = calc.add(numbers);
-            if (!StringCalculator.error) {
+            if (sum != -1) {
                 System.out.println("Sum of your numbers is " + sum);
             }
             System.out.println("Do you want to stop(y - stop)");
@@ -27,16 +24,16 @@ public class StringCalculator {
         sc.close();
     }
 
-    public int add(String numbers) {
-        StringCalculator.error = false;
+    public int add(String numbers){
         String number = "";
+        char x;
+        int sum = 0;
         boolean neg_number = false;
+        ArrayList<Integer> neg_numbers = new ArrayList<>();
         ArrayList<Character> denominators = new ArrayList<>();
         denominators.add(',');
         denominators.add('\n');
-        char x;
-        int sum = 0;
-        if (numbers.isEmpty()) {
+        if(numbers.isEmpty()) {
             return sum;
         } else {
             try {
@@ -50,42 +47,47 @@ public class StringCalculator {
                 for (int i = z; i < numbers.length(); i++) {
                     x = numbers.charAt(i);
                     if (denominators.contains(x)) {
-                        if (!(number.isEmpty())) {
-                            if (!neg_number) {
-                                sum += Integer.parseInt(number);
+                        if (!number.isEmpty()) {
+                            if(neg_number){
+                                neg_numbers.add(-Integer.parseInt(number));
+                                neg_number = false;
                             } else {
-                                sum -= Integer.parseInt(number);
+                                sum += Integer.parseInt(number);
                             }
-                            neg_number = false;
                             number = "";
                         } else {
-                            StringCalculator.error = true;
                             throw new TwoDenominatorsInARow("There can't be two denominators in a row");
                         }
                     } else if (Character.isDigit(x)) {
                         number = number + x;
-                    } else if (x == '-') {
-                        if (number.isEmpty()) {
+                    } else if(x == '-'){
+                        if(number.isEmpty()){
                             neg_number = true;
                         } else {
-                            StringCalculator.error = true;
                             throw new WrongDenominator("You've used wrong denominator");
                         }
                     } else {
-                        StringCalculator.error = true;
                         throw new WrongDenominator("You've used wrong denominator");
                     }
                 }
-                if (!(number.isEmpty())) {
-                    if (!neg_number) {
-                        sum += Integer.parseInt(number);
+                if (!number.isEmpty()) {
+                    if(neg_number){
+                        neg_numbers.add(-Integer.parseInt(number));
                     } else {
-                        sum -= Integer.parseInt(number);
+                        sum += Integer.parseInt(number);
                     }
                 }
-            } catch (WrongDenominator | TwoDenominatorsInARow e) {
+                if(!neg_numbers.isEmpty()){
+                    System.out.println("You've used negative numbers");
+                    for(int i : neg_numbers){
+                        System.out.printf("%d ", i);
+                    }
+                    System.out.println("");
+                    throw new NegativeNumbers("You can't use negative numbers");
+                }
+            } catch(WrongDenominator | TwoDenominatorsInARow | NegativeNumbers e){
                 System.out.println("There were exception. " + e.getMessage());
-                return 0;
+                return -1;
             }
         }
         return sum;
@@ -100,6 +102,12 @@ class WrongDenominator extends Exception {
 
 class TwoDenominatorsInARow extends Exception {
     public TwoDenominatorsInARow(String str) {
+        super(str);
+    }
+}
+
+class NegativeNumbers extends Exception{
+    public NegativeNumbers(String str) {
         super(str);
     }
 }
