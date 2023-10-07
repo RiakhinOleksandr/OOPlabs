@@ -13,8 +13,9 @@ public class StringCalculator {
         String numbers;
         System.out.println("This is a String Calculator program");
         while (!(exit.equals("y"))) {
-            System.out.println("Enter numbers, separated by comma: ");
+            System.out.println("Enter numbers, separated by comma or \\n symbol: ");
             numbers = sc.nextLine();
+            numbers = numbers.replace("\\n", "\n");
             int sum = calc.add(numbers);
             if (!StringCalculator.error) {
                 System.out.println("Sum of your numbers is " + sum);
@@ -39,7 +40,7 @@ public class StringCalculator {
                     x = numbers.charAt(i);
                     if (Character.isDigit(x)) {
                         number = number + x;
-                    } else if (x == ',') {
+                    } else if (x == ',' | x == '\n') {
                         if (!(number.isEmpty())) {
                             if (!neg_number) {
                                 sum += Integer.parseInt(number);
