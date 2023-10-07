@@ -2,17 +2,17 @@ package org.task;
 
 import java.util.Scanner;
 
-public class StringCalculator{
+public class StringCalculator {
 
     public static boolean error = false;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String exit = "n";
         StringCalculator calc = new StringCalculator();
         Scanner sc = new Scanner(System.in);
         String numbers;
         System.out.println("This is a String Calculator program");
-        while(!(exit.equals("y"))) {
+        while (!(exit.equals("y"))) {
             System.out.println("Enter numbers, separated by comma: ");
             numbers = sc.nextLine();
             int sum = calc.add(numbers);
@@ -25,62 +25,53 @@ public class StringCalculator{
         sc.close();
     }
 
-    public int add(String numbers){
+    public int add(String numbers) {
         StringCalculator.error = false;
         String number = "";
-        boolean neg_number =  false;
+        boolean neg_number = false;
         char x;
         int sum = 0;
-        int num_of_numbers = 0;
-        if(numbers.isEmpty()) {
+        if (numbers.isEmpty()) {
             return sum;
         } else {
             try {
                 for (int i = 0; i < numbers.length(); i++) {
-                    if(num_of_numbers >= 2){
-                        System.out.println("You can add no more than two numbers");
-                        StringCalculator.error = true;
-                        return 0;
-                    }
                     x = numbers.charAt(i);
                     if (Character.isDigit(x)) {
                         number = number + x;
                     } else if (x == ',') {
                         if (!(number.isEmpty())) {
-                            if(!neg_number) {
+                            if (!neg_number) {
                                 sum += Integer.parseInt(number);
                             } else {
                                 sum -= Integer.parseInt(number);
                             }
                             neg_number = false;
                             number = "";
-                            num_of_numbers++;
                         } else {
                             StringCalculator.error = true;
                             throw new TwoDenominatorsInARow("There can't be two denominators in a row");
                         }
-                    } else if(x == '-'){
-                        if(number.isEmpty()){
+                    } else if (x == '-') {
+                        if (number.isEmpty()) {
                             neg_number = true;
-                        }
-                        else{
+                        } else {
                             StringCalculator.error = true;
                             throw new WrongDenominator("You've used wrong denominator");
                         }
-                    }
-                    else {
+                    } else {
                         StringCalculator.error = true;
                         throw new WrongDenominator("You've used wrong denominator");
                     }
                 }
                 if (!(number.isEmpty())) {
-                    if(!neg_number) {
+                    if (!neg_number) {
                         sum += Integer.parseInt(number);
                     } else {
                         sum -= Integer.parseInt(number);
                     }
                 }
-            } catch(WrongDenominator | TwoDenominatorsInARow e){
+            } catch (WrongDenominator | TwoDenominatorsInARow e) {
                 System.out.println("There were exception. " + e.getMessage());
                 return 0;
             }
@@ -89,14 +80,14 @@ public class StringCalculator{
     }
 }
 
-class WrongDenominator extends Exception{
-    public WrongDenominator(String str){
+class WrongDenominator extends Exception {
+    public WrongDenominator(String str) {
         super(str);
     }
 }
 
-class TwoDenominatorsInARow extends Exception{
-    public TwoDenominatorsInARow(String str){
+class TwoDenominatorsInARow extends Exception {
+    public TwoDenominatorsInARow(String str) {
         super(str);
     }
 }

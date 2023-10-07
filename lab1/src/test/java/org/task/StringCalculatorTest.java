@@ -19,15 +19,19 @@ public class StringCalculatorTest {
 
     @Test
     public void CheckForOneNumber(){
-        Assertions.assertEquals(46, str_calc.add("46"));
         Assertions.assertEquals(49543, str_calc.add("49543"));
         Assertions.assertEquals(-6, str_calc.add("-6"));
     }
 
     @Test
     public void CheckForTwoNumbers(){
-        Assertions.assertEquals(50, str_calc.add("43,7"));
         Assertions.assertEquals(1000, str_calc.add("199,801"));
         Assertions.assertEquals(-100, str_calc.add("300,-400"));
+    }
+
+    @Test
+    public void CheckForManyNumbers(){
+        Assertions.assertEquals(21, str_calc.add("1,2,3,4,5,6"));
+        Assertions.assertEquals(-2, str_calc.add("2,-3,3,-4,5,-5"));
     }
 }
