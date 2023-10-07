@@ -69,4 +69,11 @@ public class StringCalculatorTest {
         Assertions.assertEquals(12, str_calc.add("//[1][%][@]\n21212%2@2%2"));
         Assertions.assertEquals(21, str_calc.add("//[ ][p][l][n]\n1 2p3l4000n5p6 4"));
     }
+
+    @Test
+    public void CheckForUserManyBigDenominators(){
+        Assertions.assertEquals(21, str_calc.add("//[val][##]\n1val2\n3##4,5val6"));
+        Assertions.assertEquals(12, str_calc.add("//[11][%][@%]\n2112112%2@%2%2"));
+        Assertions.assertEquals(55, str_calc.add("//[   ][ ][  ][    ]\n1  2   3 4 5    6  7   8 9   10"));
+    }
 }

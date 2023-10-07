@@ -9,7 +9,9 @@ import java.util.Collections;
 
 public class StringCalculator{
 
+    // Цей регулярний вираз шукає чи задав користувач роздільник, чи ні
     public static Pattern p = Pattern.compile("//(\\[.*\\])*\\n");
+    // Цей регулярний вираз шукає усі роздільники, що задав користувач
     public static Pattern p2 = Pattern.compile("[^\\[\\]]+");
 
     public static void main(String[] args){
@@ -18,12 +20,12 @@ public class StringCalculator{
         Scanner sc = new Scanner(System.in);
         String numbers;
         System.out.println("This is a String Calculator program");
-        while(!(exit.equals("y"))) {
+        while(!exit.equals("y")) { // Програма закінчить роботу коли користувач введе "y"
             System.out.println("Enter numbers, separated by comma or \\n symbol: ");
-            numbers = sc.nextLine();
+            numbers = sc.nextLine(); // Отримуємо рядок від користувача
             numbers = numbers.replace("\\n", "\n");
             int sum = calc.add(numbers);
-            if (sum != -1) {
+            if (sum != -1) { // Якщо не виникла помилка, то виводимо результат
                 System.out.println("Sum of your numbers which are less than 1001 is: " + sum);
             }
             System.out.println("Do you want to stop(y - stop)");
@@ -36,17 +38,17 @@ public class StringCalculator{
         String number = "";
         char x;
         int sum = 0;
-        boolean neg_number = false;
-        boolean denominators_added = false;
-        boolean isdenominator = false;
-        ArrayList<Integer> neg_numbers = new ArrayList<>();
-        ArrayList<String> denominators = new ArrayList<>();
+        boolean neg_number = false; // Ця змінна відповідає за наявність у рядку негативних чисел
+        boolean denominators_added = false; // Ця змінна відповідає за додання користувачем розділювачем
+        boolean isdenominator = false; // Ця змінна показує чи є наш символ роздільником чи ні
+        ArrayList<Integer> neg_numbers = new ArrayList<>(); // Тут зберігаються усі від'ємні числа
+        ArrayList<String> denominators = new ArrayList<>(); // Тут зберігаються роздільники, задані користувачем
         Matcher m = p.matcher(numbers);
         if(numbers.isEmpty()) {
             return sum;
         } else {
             try {
-                int z;
+                int z; // Ця змінна відповідає за те, з якого елемента починаємо рахувати суму
                 if(m.find()){
                     z = m.group().length();
                     denominators = StringCalculator.add_user_denominator(denominators, m.group(1));
@@ -56,39 +58,39 @@ public class StringCalculator{
                 }
                 for (int i = z; i < numbers.length(); i++) {
                     isdenominator = false;
-                    x = numbers.charAt(i);
+                    x = numbers.charAt(i); // Проходимось по кожному символу з рядка
                     if (x == '\n' | x == ',') {
                         isdenominator = true;
                         if (!number.isEmpty()) {
-                            if(neg_number){
+                            if(neg_number){ // Якщо число від'ємне, додаємо його у список негативних чисел
                                 neg_numbers.add(-Integer.parseInt(number));
                                 neg_number = false;
-                            } else {
+                            } else { // В іншому випадку додаємо його до суми
                                 if(Integer.parseInt(number) <= 1000){
                                     sum += Integer.parseInt(number);
                                 }
                             }
-                            number = "";
-                        } else {
+                            number = ""; // Обнуляємо число
+                        } else { // Якщо до роздільника не було числа, видаємо помилку
                             throw new TwoDenominatorsInARow("There can't be two denominators in a row");
                         }
                     } else if(denominators_added){
-                        for(String s : denominators){
-                            if(numbers.length() >= i + s.length()){
+                        for(String s : denominators){ // Проходимось по роздільникам, доданими користувачем
+                            if(numbers.length() >= i + s.length()){ // Роздільник має "вміститись" у залишений рядок
                                 if(s.equals(numbers.substring(i, i + s.length()))){
                                     isdenominator = true;
                                     i += s.length() - 1;
                                     if (!number.isEmpty()) {
-                                        if(neg_number){
+                                        if(neg_number){ // Якщо число від'ємне, додаємо його у список негативних чисел
                                             neg_numbers.add(-Integer.parseInt(number));
                                             neg_number = false;
-                                        } else {
+                                        } else { // В іншому випадку додаємо його до суми
                                             if(Integer.parseInt(number) <= 1000){
                                                 sum += Integer.parseInt(number);
                                             }
                                         }
-                                        number = "";
-                                    } else {
+                                        number = ""; // Обнуляємо число
+                                    } else { // Якщо до роздільника не було числа, видаємо помилку
                                         throw new TwoDenominatorsInARow("There can't be two denominators in a row");
                                     }
                                     break;
@@ -96,13 +98,13 @@ public class StringCalculator{
                             }
                         }
                     }
-                    if(!isdenominator) {
+                    if(!isdenominator) { // Якщо символ - не роздільник, дивимось чи він цифра
                         if (Character.isDigit(x)) {
                             number = number + x;
                         } else if (x == '-') {
-                            if (number.isEmpty()) {
+                            if (number.isEmpty()) { // Якщо знак "-" стоїть перед числом і не є роздільником, число від'ємне
                                 neg_number = true;
-                            } else {
+                            } else { // Якщо знак "-" стоїть посеред числа, видаємо помилку
                                 throw new WrongDenominator("You've used wrong denominator");
                             }
                         } else {
@@ -119,10 +121,10 @@ public class StringCalculator{
                         }
                     }
                 }
-                if(!neg_numbers.isEmpty()){
+                if(!neg_numbers.isEmpty()){ // Якщо в нас було хоч одне від'ємне число видаємо помилку
                     System.out.println("You've used negative numbers:");
                     for(int i : neg_numbers){
-                        System.out.printf("%d ", i);
+                        System.out.printf("%d ", i); // Виводимо всі від'ємні числа
                     }
                     System.out.println("");
                     throw new NegativeNumbers("You can't use negative numbers");
@@ -144,7 +146,6 @@ public class StringCalculator{
         Collections.reverse(denominators);
         return denominators;
     }
-
 }
 
 class WrongDenominator extends Exception {
