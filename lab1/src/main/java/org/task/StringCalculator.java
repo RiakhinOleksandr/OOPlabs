@@ -1,6 +1,7 @@
 package org.task;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class StringCalculator {
 
@@ -30,17 +31,25 @@ public class StringCalculator {
         StringCalculator.error = false;
         String number = "";
         boolean neg_number = false;
+        ArrayList<Character> denominators = new ArrayList<>();
+        denominators.add(',');
+        denominators.add('\n');
         char x;
         int sum = 0;
         if (numbers.isEmpty()) {
             return sum;
         } else {
             try {
-                for (int i = 0; i < numbers.length(); i++) {
+                int z = 0;
+                if(numbers.charAt(0) == '/' & numbers.length() > 3){
+                    if(numbers.charAt(1) == '/' & numbers.charAt(3) == '\n'){
+                        denominators.add(numbers.charAt(2));
+                        z = 4;
+                    }
+                }
+                for (int i = z; i < numbers.length(); i++) {
                     x = numbers.charAt(i);
-                    if (Character.isDigit(x)) {
-                        number = number + x;
-                    } else if (x == ',' | x == '\n') {
+                    if (denominators.contains(x)) {
                         if (!(number.isEmpty())) {
                             if (!neg_number) {
                                 sum += Integer.parseInt(number);
@@ -53,6 +62,8 @@ public class StringCalculator {
                             StringCalculator.error = true;
                             throw new TwoDenominatorsInARow("There can't be two denominators in a row");
                         }
+                    } else if (Character.isDigit(x)) {
+                        number = number + x;
                     } else if (x == '-') {
                         if (number.isEmpty()) {
                             neg_number = true;

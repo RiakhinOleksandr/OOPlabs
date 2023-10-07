@@ -40,4 +40,11 @@ public class StringCalculatorTest {
         Assertions.assertEquals(10, str_calc.add("1,2\n3\n4"));
         Assertions.assertEquals(4, str_calc.add("1\n1\n1\n1"));
     }
+
+    @Test
+    public void CheckForUserDenominator(){
+        Assertions.assertEquals(15, str_calc.add("//;\n1;2\n3;4,5"));
+        Assertions.assertEquals(1, str_calc.add("//#\n1#-2,3,4#-5"));
+        Assertions.assertEquals(8, str_calc.add("//1\n2121212"));
+    }
 }
