@@ -4,10 +4,13 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.Comparator;
+import java.util.Collections;
 
 public class StringCalculator{
 
-    public static Pattern p = Pattern.compile("//\\[(([^\\]])*)\\]\\n");
+    public static Pattern p = Pattern.compile("//(\\[.*\\])*\\n");
+    public static Pattern p2 = Pattern.compile("[^\\[\\]]+");
 
     public static void main(String[] args){
         String exit = "n";
@@ -34,10 +37,10 @@ public class StringCalculator{
         char x;
         int sum = 0;
         boolean neg_number = false;
+        boolean denominators_added = false;
+        boolean isdenominator = false;
         ArrayList<Integer> neg_numbers = new ArrayList<>();
         ArrayList<String> denominators = new ArrayList<>();
-        denominators.add(",");
-        denominators.add("\n");
         Matcher m = p.matcher(numbers);
         if(numbers.isEmpty()) {
             return sum;
@@ -45,15 +48,17 @@ public class StringCalculator{
             try {
                 int z;
                 if(m.find()){
-                    denominators.add(m.group(1));
                     z = m.group().length();
+                    denominators = StringCalculator.add_user_denominator(denominators, m.group(1));
+                    denominators_added = true;
                 } else {
-                    denominators.add("\n");
                     z = 0;
                 }
                 for (int i = z; i < numbers.length(); i++) {
+                    isdenominator = false;
                     x = numbers.charAt(i);
-                    if (denominators.contains(String.valueOf(x))) {
+                    if (x == '\n' | x == ',') {
+                        isdenominator = true;
                         if (!number.isEmpty()) {
                             if(neg_number){
                                 neg_numbers.add(-Integer.parseInt(number));
@@ -67,35 +72,42 @@ public class StringCalculator{
                         } else {
                             throw new TwoDenominatorsInARow("There can't be two denominators in a row");
                         }
-                    } else if(x == denominators.get(2).charAt(0)){
-                        if(numbers.length() >= i + denominators.get(2).length()){
-                            if(denominators.get(2).equals(numbers.substring(i, i + denominators.get(2).length()))){
-                                i += denominators.get(2).length() - 1;
-                                if (!number.isEmpty()) {
-                                    if(neg_number){
-                                        neg_numbers.add(-Integer.parseInt(number));
-                                        neg_number = false;
-                                    } else {
-                                        if(Integer.parseInt(number) <= 1000){
-                                            sum += Integer.parseInt(number);
+                    } else if(denominators_added){
+                        for(String s : denominators){
+                            if(numbers.length() >= i + s.length()){
+                                if(s.equals(numbers.substring(i, i + s.length()))){
+                                    isdenominator = true;
+                                    i += s.length() - 1;
+                                    if (!number.isEmpty()) {
+                                        if(neg_number){
+                                            neg_numbers.add(-Integer.parseInt(number));
+                                            neg_number = false;
+                                        } else {
+                                            if(Integer.parseInt(number) <= 1000){
+                                                sum += Integer.parseInt(number);
+                                            }
                                         }
+                                        number = "";
+                                    } else {
+                                        throw new TwoDenominatorsInARow("There can't be two denominators in a row");
                                     }
-                                    number = "";
-                                } else {
-                                    throw new TwoDenominatorsInARow("There can't be two denominators in a row");
+                                    break;
                                 }
                             }
                         }
-                    } else if (Character.isDigit(x)) {
-                        number = number + x;
-                    } else if(x == '-'){
-                        if(number.isEmpty()){
-                            neg_number = true;
+                    }
+                    if(!isdenominator) {
+                        if (Character.isDigit(x)) {
+                            number = number + x;
+                        } else if (x == '-') {
+                            if (number.isEmpty()) {
+                                neg_number = true;
+                            } else {
+                                throw new WrongDenominator("You've used wrong denominator");
+                            }
                         } else {
                             throw new WrongDenominator("You've used wrong denominator");
                         }
-                    } else {
-                        throw new WrongDenominator("You've used wrong denominator");
                     }
                 }
                 if (!number.isEmpty()) {
@@ -122,6 +134,17 @@ public class StringCalculator{
         }
         return sum;
     }
+
+    public static ArrayList<String> add_user_denominator(ArrayList<String> denominators, String p){
+        Matcher m = p2.matcher(p);
+        while(m.find()){
+            denominators.add(m.group());
+        }
+        denominators.sort(Comparator.comparing(String::length));
+        Collections.reverse(denominators);
+        return denominators;
+    }
+
 }
 
 class WrongDenominator extends Exception {

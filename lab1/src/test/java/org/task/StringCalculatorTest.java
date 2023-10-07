@@ -62,4 +62,11 @@ public class StringCalculatorTest {
         Assertions.assertEquals(8, str_calc.add("//[111]\n2111211121112"));
         Assertions.assertEquals(6, str_calc.add("//[denominator]\n1denominator2denominator3denominator4000"));
     }
+
+    @Test
+    public void CheckForUserManyDenominators(){
+        Assertions.assertEquals(15, str_calc.add("//[;][#]\n1;2\n3#4,5"));
+        Assertions.assertEquals(12, str_calc.add("//[1][%][@]\n21212%2@2%2"));
+        Assertions.assertEquals(21, str_calc.add("//[ ][p][l][n]\n1 2p3l4000n5p6 4"));
+    }
 }
