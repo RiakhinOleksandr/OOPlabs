@@ -37,9 +37,9 @@ public class StringCalculatorTest {
 
     @Test
     public void CheckForUserDenominator(){
-        Assertions.assertEquals(15, str_calc.add("//;\n1;2\n3;4,5"));
-        Assertions.assertEquals(1055, str_calc.add("//#\n1#22,3,4#25\n1000"));
-        Assertions.assertEquals(8, str_calc.add("//1\n2121212"));
+        Assertions.assertEquals(15, str_calc.add("//[;]\n1;2\n3;4,5"));
+        Assertions.assertEquals(1055, str_calc.add("//[#]\n1#22,3,4#25\n1000"));
+        Assertions.assertEquals(8, str_calc.add("//[1]\n2121212"));
     }
 
     @Test
@@ -52,7 +52,14 @@ public class StringCalculatorTest {
     @Test
     public void CheckForBigNumbers(){
         Assertions.assertEquals(1003, str_calc.add("1,10001,1001,2,1000"));
-        Assertions.assertEquals(999, str_calc.add("999999\n9999\n999,999999999999"));
+        Assertions.assertEquals(999, str_calc.add("999999\n9999\n999,999999999"));
         Assertions.assertEquals(0, str_calc.add("1001,1002,10003,7787878"));
+    }
+
+    @Test
+    public void CheckForUserBigDenominator(){
+        Assertions.assertEquals(15, str_calc.add("//[JOHN]\n1JOHN2\n3JOHN4,5"));
+        Assertions.assertEquals(8, str_calc.add("//[111]\n2111211121112"));
+        Assertions.assertEquals(6, str_calc.add("//[denominator]\n1denominator2denominator3denominator4000"));
     }
 }
