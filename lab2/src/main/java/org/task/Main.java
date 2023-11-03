@@ -37,6 +37,9 @@ public class Main {
         // Create unit matrix:
         // Matrix m4 = Matrix.create_unit_matrix(6);
         // printMatrix(m4);
+        // Create random matrix:
+        // Matrix m5 = Matrix.random_column_vector(8, 100);
+        // printMatrix(m5);
     }
 
     static public void printMatrix(Matrix m) {

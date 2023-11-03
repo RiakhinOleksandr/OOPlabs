@@ -1,6 +1,7 @@
 package org.task;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class Matrix {
     private double[][] matrix;
@@ -162,6 +163,28 @@ public class Matrix {
             numbers[i] = 1;
         }
         Matrix m = Matrix.create_diagonal_matrix(numbers);
+        return m;
+    }
+
+    public static Matrix random_row_vector(int columns, double max) {
+        Matrix m = new Matrix(1, columns);
+        double[] numbers = new double[columns];
+        Random random = new Random();
+        for (int i = 0; i < columns; i++) {
+            numbers[i] = 2 * max * (random.nextDouble() - 0.5);
+        }
+        m.fill_up_matrix(numbers);
+        return m;
+    }
+
+    public static Matrix random_column_vector(int rows, double max) {
+        Matrix m = new Matrix(rows, 1);
+        double[] numbers = new double[rows];
+        Random random = new Random();
+        for (int i = 0; i < rows; i++) {
+            numbers[i] = 2 * max * (random.nextDouble() - 0.5);
+        }
+        m.fill_up_matrix(numbers);
         return m;
     }
 }
@@ -334,6 +357,28 @@ final class ImmutableMatrix {
             numbers[i] = 1;
         }
         ImmutableMatrix m = ImmutableMatrix.create_diagonal_matrix(numbers);
+        return m;
+    }
+
+    public static ImmutableMatrix random_row_vector(int columns, double max) {
+        ImmutableMatrix m = new ImmutableMatrix(1, columns);
+        double[] numbers = new double[columns];
+        Random random = new Random();
+        for (int i = 0; i < columns; i++) {
+            numbers[i] = 2 * max * (random.nextDouble() - 0.5);
+        }
+        m.fill_up_matrix(numbers);
+        return m;
+    }
+
+    public static ImmutableMatrix random_column_vector(int rows, double max) {
+        ImmutableMatrix m = new ImmutableMatrix(rows, 1);
+        double[] numbers = new double[rows];
+        Random random = new Random();
+        for (int i = 0; i < rows; i++) {
+            numbers[i] = 2 * max * (random.nextDouble() - 0.5);
+        }
+        m.fill_up_matrix(numbers);
         return m;
     }
 }
