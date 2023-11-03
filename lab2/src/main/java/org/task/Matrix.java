@@ -155,6 +155,15 @@ public class Matrix {
         m.fill_up_matrix(numbers);
         return m;
     }
+
+    public static Matrix create_unit_matrix(int n) {
+        double[] numbers = new double[n];
+        for (int i = 0; i < n; i++) {
+            numbers[i] = 1;
+        }
+        Matrix m = Matrix.create_diagonal_matrix(numbers);
+        return m;
+    }
 }
 
 final class ImmutableMatrix {
@@ -316,6 +325,15 @@ final class ImmutableMatrix {
             }
         }
         m.fill_up_matrix(numbers);
+        return m;
+    }
+
+    public static ImmutableMatrix create_unit_matrix(int n) {
+        double[] numbers = new double[n];
+        for (int i = 0; i < n; i++) {
+            numbers[i] = 1;
+        }
+        ImmutableMatrix m = ImmutableMatrix.create_diagonal_matrix(numbers);
         return m;
     }
 }

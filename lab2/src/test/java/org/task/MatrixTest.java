@@ -135,4 +135,12 @@ public class MatrixTest {
         double[][] expected = { { 3, 0, 0, 0 }, { 0, 4, 0, 0 }, { 0, 0, -1, 0 }, { 0, 0, 0, 0.65 } };
         Assertions.assertArrayEquals(m.return_matrix(), expected);
     }
+
+    @Test
+    public void check_unit_matrixes() {
+        Matrix m = Matrix.create_unit_matrix(5);
+        double[][] expected = { { 1, 0, 0, 0, 0 }, { 0, 1, 0, 0, 0 }, { 0, 0, 1, 0, 0 }, { 0, 0, 0, 1, 0 },
+                { 0, 0, 0, 0, 1 } };
+        Assertions.assertArrayEquals(m.return_matrix(), expected);
+    }
 }

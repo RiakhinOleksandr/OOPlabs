@@ -29,11 +29,14 @@ public class Main {
         // m1.transponate();
         // printMatrix(m1);
         // ImmutableMatrix M2 = ImmutableMatrix.transponate(M);
-        // printImmutableMatrix(m4);
+        // printImmutableMatrix(M2);
         // Create diagonal matrix:
         // double[] vector = { 1, 2, 3, 4, 5 };
         // Matrix m3 = Matrix.create_diagonal_matrix(vector);
         // printMatrix(m3);
+        // Create unit matrix:
+        // Matrix m4 = Matrix.create_unit_matrix(6);
+        // printMatrix(m4);
     }
 
     static public void printMatrix(Matrix m) {
