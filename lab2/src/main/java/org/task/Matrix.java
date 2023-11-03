@@ -43,6 +43,16 @@ public class Matrix {
         }
     }
 
+    public void set_matrix(double[][] matrix1) {
+        if (matrix1.length == this.rows & matrix1[0].length == this.columns) {
+            for (int i = 0; i < this.rows; i++) {
+                for (int j = 0; j < this.rows; j++) {
+                    this.matrix[i][j] = matrix1[i][j];
+                }
+            }
+        }
+    }
+
     public double get_element(int row, int columns) {
         return this.matrix[row][columns];
     }
@@ -186,6 +196,85 @@ public class Matrix {
         }
         m.fill_up_matrix(numbers);
         return m;
+    }
+
+    public void switch_rows_in_matrix(int n, int m) {
+        if (n <= this.rows & m <= this.columns & n != m) {
+            double[] N = new double[this.columns];
+            double[] M = new double[this.columns];
+            System.arraycopy(this.get_row(n), 0, N, 0, this.columns);
+            System.arraycopy(this.get_row(m), 0, M, 0, this.columns);
+            for (int i = 0; i < this.columns; i++) {
+                this.matrix[n][i] = M[i];
+                this.matrix[m][i] = N[i];
+            }
+        }
+    }
+
+    public static Matrix inverse_matrix(Matrix m1) {
+        if (m1.rows == m1.columns & m1.rows != 0) {
+            int len = m1.rows;
+            Matrix m = new Matrix(m1);
+            double coef;
+            if (len == 1) {
+                if (m1.matrix[0][0] != 0) {
+                    double[] numbers = { 1 / m1.matrix[0][0] };
+                    m.fill_up_matrix(numbers);
+                    return m;
+                } else {
+                    System.out.println("You can`t get inverse Matrix of this!");
+                    return new Matrix();
+                }
+            }
+            Matrix I = Matrix.create_unit_matrix(len);
+            for (int i = 0; i < len; i++) {
+                if (m.matrix[i][i] == 0) {
+                    if (i < len - 1) {
+                        for (int j = i + 1; j < len; j++) {
+                            if (m.matrix[j][i] != 0) {
+                                m.switch_rows_in_matrix(i, j);
+                                I.switch_rows_in_matrix(i, j);
+                                break;
+                            }
+                            if (j == len - 1) {
+                                System.out.println("You can`t get inverse Matrix of this!");
+                                return new Matrix();
+                            }
+                        }
+                    } else {
+                        System.out.println("You can`t get inverse Matrix of this!");
+                        return new Matrix();
+                    }
+                }
+                coef = m.matrix[i][i];
+                for (int j = 0; j < len; j++) {
+                    m.matrix[i][j] = m.matrix[i][j] / coef;
+                    I.matrix[i][j] = I.matrix[i][j] / coef;
+                }
+                if (i < len - 1) {
+                    for (int j = i + 1; j < len; j++) {
+                        coef = m.matrix[j][i];
+                        for (int k = 0; k < len; k++) {
+                            m.matrix[j][k] -= m.matrix[i][k] * coef;
+                            I.matrix[j][k] -= I.matrix[i][k] * coef;
+                        }
+                    }
+                }
+            }
+            for (int i = len - 1; i > -1; i--) {
+                for (int j = i - 1; j > -1; j--) {
+                    coef = m.matrix[j][i];
+                    m.matrix[j][i] = 0;
+                    for (int k = 0; k < len; k++) {
+                        I.matrix[j][k] -= coef * I.matrix[i][k];
+                    }
+                }
+            }
+            return I;
+        } else {
+            System.out.println("You can`t get inverse Matrix of this!");
+            return new Matrix();
+        }
     }
 }
 
@@ -380,5 +469,84 @@ final class ImmutableMatrix {
         }
         m.fill_up_matrix(numbers);
         return m;
+    }
+
+    public void switch_rows_in_matrix(int n, int m) {
+        if (n <= this.rows & m <= this.columns & n != m) {
+            double[] N = new double[this.columns];
+            double[] M = new double[this.columns];
+            System.arraycopy(this.get_row(n), 0, N, 0, this.columns);
+            System.arraycopy(this.get_row(m), 0, M, 0, this.columns);
+            for (int i = 0; i < this.columns; i++) {
+                this.matrix[n][i] = M[i];
+                this.matrix[m][i] = N[i];
+            }
+        }
+    }
+
+    public static ImmutableMatrix inverse_matrix(ImmutableMatrix m1) {
+        if (m1.rows == m1.columns & m1.rows != 0) {
+            int len = m1.rows;
+            ImmutableMatrix m = new ImmutableMatrix(m1);
+            double coef;
+            if (len == 1) {
+                if (m1.matrix[0][0] != 0) {
+                    double[] numbers = { 1 / m1.matrix[0][0] };
+                    m.fill_up_matrix(numbers);
+                    return m;
+                } else {
+                    System.out.println("You can`t get inverse Matrix of this!");
+                    return new ImmutableMatrix();
+                }
+            }
+            ImmutableMatrix I = ImmutableMatrix.create_unit_matrix(len);
+            for (int i = 0; i < len; i++) {
+                if (m.matrix[i][i] == 0) {
+                    if (i < len - 1) {
+                        for (int j = i + 1; j < len; j++) {
+                            if (m.matrix[j][i] != 0) {
+                                m.switch_rows_in_matrix(i, j);
+                                I.switch_rows_in_matrix(i, j);
+                                break;
+                            }
+                            if (j == len - 1) {
+                                System.out.println("You can`t get inverse Matrix of this!");
+                                return new ImmutableMatrix();
+                            }
+                        }
+                    } else {
+                        System.out.println("You can`t get inverse Matrix of this!");
+                        return new ImmutableMatrix();
+                    }
+                }
+                coef = m.matrix[i][i];
+                for (int j = 0; j < len; j++) {
+                    m.matrix[i][j] = m.matrix[i][j] / coef;
+                    I.matrix[i][j] = I.matrix[i][j] / coef;
+                }
+                if (i < len - 1) {
+                    for (int j = i + 1; j < len; j++) {
+                        coef = m.matrix[j][i];
+                        for (int k = 0; k < len; k++) {
+                            m.matrix[j][k] -= m.matrix[i][k] * coef;
+                            I.matrix[j][k] -= I.matrix[i][k] * coef;
+                        }
+                    }
+                }
+            }
+            for (int i = len - 1; i > -1; i--) {
+                for (int j = i - 1; j > -1; j--) {
+                    coef = m.matrix[j][i];
+                    m.matrix[j][i] = 0;
+                    for (int k = 0; k < len; k++) {
+                        I.matrix[j][k] -= coef * I.matrix[i][k];
+                    }
+                }
+            }
+            return I;
+        } else {
+            System.out.println("You can`t get inverse Matrix of this!");
+            return new ImmutableMatrix();
+        }
     }
 }

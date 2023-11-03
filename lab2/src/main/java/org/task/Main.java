@@ -3,33 +3,41 @@ package org.task;
 public class Main {
     public static void main(String[] args) {
         // Creating matrixes:
-        Matrix m = new Matrix(4, 3);
+        Matrix m = new Matrix(3, 3);
         Matrix m1 = new Matrix(3, 3);
-        ImmutableMatrix M = new ImmutableMatrix(4, 3);
+        Matrix matrix_for_inverse1 = new Matrix(3, 3);
+        Matrix matrix_for_inverse2 = new Matrix(3, 3);
+        ImmutableMatrix M = new ImmutableMatrix(3, 3);
         ImmutableMatrix M1 = new ImmutableMatrix(3, 3);
         // Filling up matrixes:
-        double[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15 };
+        double[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         double[] numbers1 = { -1, 2, -3, 4, -5, 6, -7, 8, -9 };
+        double[] numbers2 = { 1, 2, 3, 5, 7, 9, 11, 13, 17 };
+        double[] numbers3 = { 0, 1, 4, 3, 2, 0, 0, 1, -1 };
         m.fill_up_matrix(numbers);
         m1.fill_up_matrix(numbers1);
+        matrix_for_inverse1.fill_up_matrix(numbers2);
+        matrix_for_inverse2.fill_up_matrix(numbers3);
         M.fill_up_matrix(numbers);
         M1.fill_up_matrix(numbers1);
-        // Printing matrixes:
-        // printMatrix(m);
-        // printMatrix(m1);
         // Adding matrixes:
         // m1.add_matrixes(m);
         // printMatrix(m1);
         // ImmutableMatrix M2 = ImmutableMatrix.add_matrixes(M1, M);
-        // printImmutableMatrix(m2);
+        // printImmutableMatrix(M2);
+        // Multiplying matrixes by number:
+        // m1.multiply_Matrix_by_number(2);
+        // printMatrix(m1);
+        // ImmutableMatrix M3 = ImmutableMatrix.multiply_Matrix_by_number(M1, 2);
+        // printImmutableMatrix(M3);
         // Multiplying marixes:
         // Matrix m2 = Matrix.multiply_matrixes(m, m1);
         // printMatrix(m2);
         // Transponate matrix:
         // m1.transponate();
         // printMatrix(m1);
-        // ImmutableMatrix M2 = ImmutableMatrix.transponate(M);
-        // printImmutableMatrix(M2);
+        // ImmutableMatrix M4 = ImmutableMatrix.transponate(M);
+        // printImmutableMatrix(M4);
         // Create diagonal matrix:
         // double[] vector = { 1, 2, 3, 4, 5 };
         // Matrix m3 = Matrix.create_diagonal_matrix(vector);
@@ -39,7 +47,13 @@ public class Main {
         // printMatrix(m4);
         // Create random matrix:
         // Matrix m5 = Matrix.random_column_vector(8, 100);
+        // Matrix m5 = Matrix.random_row_vector(8, 100);
         // printMatrix(m5);
+        // Inverse matrix:
+        // Matrix m6 = Matrix.inverse_matrix(matrix_for_inverse1);
+        // printMatrix(m6);
+        // Matrix m7 = Matrix.inverse_matrix(matrix_for_inverse2);
+        // printMatrix(m7);
     }
 
     static public void printMatrix(Matrix m) {
