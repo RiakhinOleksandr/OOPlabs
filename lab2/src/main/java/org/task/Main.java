@@ -20,10 +20,19 @@ public class Main {
         // Adding matrixes:
         // m1.add_matrixes(m);
         // printMatrix(m1);
-        // ImmutableMatrix m2 = ImmutableMatrix.add_matrixes(M1, M);
+        // ImmutableMatrix M2 = ImmutableMatrix.add_matrixes(M1, M);
         // printImmutableMatrix(m2);
         // Multiplying marixes:
-        // Matrix m3 = Matrix.multiply_matrixes(m, m1);
+        // Matrix m2 = Matrix.multiply_matrixes(m, m1);
+        // printMatrix(m2);
+        // Transponate matrix:
+        // m1.transponate();
+        // printMatrix(m1);
+        // ImmutableMatrix M2 = ImmutableMatrix.transponate(M);
+        // printImmutableMatrix(m4);
+        // Create diagonal matrix:
+        // double[] vector = { 1, 2, 3, 4, 5 };
+        // Matrix m3 = Matrix.create_diagonal_matrix(vector);
         // printMatrix(m3);
     }
 

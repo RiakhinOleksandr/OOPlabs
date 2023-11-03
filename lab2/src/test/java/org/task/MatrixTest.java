@@ -117,4 +117,22 @@ public class MatrixTest {
         double[] expected = { 3, 0, 2 };
         Assertions.assertArrayEquals(matrix1.get_column(0), expected);
     }
+
+    @Test
+    public void check_transponating() {
+        Matrix m = new Matrix(matrix_for_tests);
+        m.transponate();
+        ImmutableMatrix M = ImmutableMatrix.transponate(Matrix_for_tests);
+        double[][] expexted = { { 1, 4, 7, 10 }, { 2, 5, 8, 11 }, { 3, 6, 9, 12 } };
+        Assertions.assertArrayEquals(m.return_matrix(), expexted);
+        Assertions.assertArrayEquals(M.return_matrix(), expexted);
+    }
+
+    @Test
+    public void check_diagonal_matrixes() {
+        double[] vector = { 3, 4, -1, 0.65 };
+        Matrix m = Matrix.create_diagonal_matrix(vector);
+        double[][] expected = { { 3, 0, 0, 0 }, { 0, 4, 0, 0 }, { 0, 0, -1, 0 }, { 0, 0, 0, 0.65 } };
+        Assertions.assertArrayEquals(m.return_matrix(), expected);
+    }
 }

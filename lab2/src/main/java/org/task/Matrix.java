@@ -118,6 +118,43 @@ public class Matrix {
             return new Matrix();
         }
     }
+
+    public void transponate() {
+        double[] numbers = new double[this.rows * this.columns];
+        double[] column;
+        int k = 0;
+        for (int i = 0; i < this.columns; i++) {
+            column = this.get_column(i);
+            for (int j = 0; j < this.rows; j++) {
+                numbers[k] = column[j];
+                k++;
+            }
+        }
+        int temp = this.rows;
+        this.rows = this.columns;
+        this.columns = temp;
+        this.matrix = new double[rows][columns];
+        this.fill_up_matrix(numbers);
+    }
+
+    public static Matrix create_diagonal_matrix(double[] vector) {
+        int len = vector.length;
+        int k = 0;
+        Matrix m = new Matrix(len, len);
+        double[] numbers = new double[len * len];
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len; j++) {
+                if (i == j) {
+                    numbers[k] = vector[i];
+                } else {
+                    numbers[k] = 0;
+                }
+                k++;
+            }
+        }
+        m.fill_up_matrix(numbers);
+        return m;
+    }
 }
 
 final class ImmutableMatrix {
@@ -245,5 +282,40 @@ final class ImmutableMatrix {
             System.out.println("Those matrixes can`t be multiplyed!");
             return new ImmutableMatrix();
         }
+    }
+
+    public static ImmutableMatrix transponate(ImmutableMatrix m) {
+        ImmutableMatrix matrix1 = new ImmutableMatrix(m.columns, m.rows);
+        double[] numbers = new double[m.rows * m.columns];
+        double[] column;
+        int k = 0;
+        for (int i = 0; i < m.columns; i++) {
+            column = m.get_column(i);
+            for (int j = 0; j < m.rows; j++) {
+                numbers[k] = column[j];
+                k++;
+            }
+        }
+        matrix1.fill_up_matrix(numbers);
+        return matrix1;
+    }
+
+    public static ImmutableMatrix create_diagonal_matrix(double[] vector) {
+        int len = vector.length;
+        int k = 0;
+        ImmutableMatrix m = new ImmutableMatrix(len, len);
+        double[] numbers = new double[len * len];
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len; j++) {
+                if (i == j) {
+                    numbers[k] = vector[i];
+                } else {
+                    numbers[k] = 0;
+                }
+                k++;
+            }
+        }
+        m.fill_up_matrix(numbers);
+        return m;
     }
 }
