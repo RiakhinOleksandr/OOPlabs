@@ -22,7 +22,10 @@ public class Matrix {
     public Matrix(Matrix m) {
         this.columns = m.columns;
         this.rows = m.rows;
-        this.matrix = m.matrix;
+        this.matrix = new double[m.rows][m.columns];
+        for (int i = 0; i < m.rows; i++) {
+            System.arraycopy(m.matrix[i], 0, this.matrix[i], 0, m.matrix.length);
+        }
     }
 
     public double[][] return_matrix() {
@@ -82,6 +85,8 @@ public class Matrix {
                     }
                 }
             }
+        } else {
+            return false;
         }
         return true;
     }
@@ -298,7 +303,11 @@ final class ImmutableMatrix {
     public ImmutableMatrix(ImmutableMatrix m) {
         this.columns = m.columns;
         this.rows = m.rows;
-        this.matrix = m.matrix;
+        this.matrix = new double[m.rows][m.columns];
+        for (int i = 0; i < m.rows; i++) {
+            System.arraycopy(m.matrix[i], 0, this.matrix[i], 0, m.matrix.length);
+        }
+        this.changed = true;
     }
 
     public double[][] return_matrix() {
@@ -315,6 +324,7 @@ final class ImmutableMatrix {
                         k++;
                     }
                 }
+                changed = true;
             } else {
                 System.out.println("Wrong number of numbers!");
             }
@@ -352,6 +362,8 @@ final class ImmutableMatrix {
                     }
                 }
             }
+        } else {
+            return false;
         }
         return true;
     }
