@@ -39,4 +39,14 @@ public class Testing {
         assertSame(container.getComponent(B.class), dAsSingleton);
         assertSame(container.getComponent(D.class), dAsSingleton);
     }
+
+    @Test
+    public void check_with_numbers(){
+        env = new EnvironmentClass();
+        container = env.configure(new Configuration2());
+        binder = env.get_binder();
+        binder.bind(Number.class, Integer.class);
+        binder.bind(Integer.class, 5);
+        assertSame(container.getComponent(Number.class), 5);
+    }
 }

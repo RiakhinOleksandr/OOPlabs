@@ -6,6 +6,7 @@ import org.fpm.di.EnvironmentClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNotNull;
 
 
@@ -73,5 +74,16 @@ public class Testing2 {
         binder.bind(E.class);
         final E eAsSingleton = container.getComponent(E.class);
         assertSame(container.getComponent(E.class), eAsSingleton);
+    }
+
+    @Test
+    public void test_diff(){
+        env = new EnvironmentClass();
+        container = env.configure(new Configuration2());
+        binder = env.get_binder();
+        binder.bind(A.class, B.class);
+        binder.bind(B.class);
+        assertNotSame(container.getComponent(B.class), container.getComponent(B.class));
+        
     }
 }
