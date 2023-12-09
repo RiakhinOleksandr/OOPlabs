@@ -19,10 +19,12 @@ public class BinderClass implements Binder {
     @Override
     public <T> void bind(Class<T> clazz, Class<? extends T> implementation) {
         try{
-            if(!this.map_of_classes.containsKey(clazz) && !this.map_of_instances.containsKey(clazz)){
-                this.map_of_classes.put(clazz, implementation);
-            } else{
-                throw new AlreadyBinded("You have already binded " + clazz);
+            if(clazz != null && implementation != null) {
+                if (!this.map_of_classes.containsKey(clazz) && !this.map_of_instances.containsKey(clazz)) {
+                    this.map_of_classes.put(clazz, implementation);
+                } else {
+                    throw new AlreadyBinded("You have already binded " + clazz);
+                }
             }
         } catch(AlreadyBinded e){
             System.out.println(e.getMessage());
@@ -32,10 +34,12 @@ public class BinderClass implements Binder {
     @Override
     public <T> void bind(Class<T> clazz, T instance) {
         try{
-            if(!this.map_of_classes.containsKey(clazz) && !this.map_of_instances.containsKey(clazz)){
-                this.map_of_instances.put(clazz, instance);
-            } else{
-                throw new AlreadyBinded("You have already binded " + clazz);
+            if(clazz != null && instance != null) {
+                if (!this.map_of_classes.containsKey(clazz) && !this.map_of_instances.containsKey(clazz)) {
+                    this.map_of_instances.put(clazz, instance);
+                } else {
+                    throw new AlreadyBinded("You have already binded " + clazz);
+                }
             }
         } catch(AlreadyBinded e){
             System.out.println(e.getMessage());

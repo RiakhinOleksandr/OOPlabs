@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 public class ContainerClass implements Container{
     private final Map<Class<?>, Class<?>> map_of_classes;
     private final Map<Class<?>, Object> map_of_instances;
+    private int counter = 0;
 
     public ContainerClass(Map<Class<?>, Class<?>> map_of_classes, Map<Class<?>, Object> map_of_instances){
         this.map_of_classes = map_of_classes;
@@ -24,6 +25,7 @@ public class ContainerClass implements Container{
                (this.map_of_instances.containsKey(clazzz) || this.map_of_classes.containsKey(clazzz))){
                 return this.getComponent(clazzz);
             }
+            counter++;
             return this.getInstance(clazzz);
         }
         return null;
@@ -50,6 +52,9 @@ public class ContainerClass implements Container{
                     int len = type_of_parameters.length;
                     Object[] arguments = new Object[len];
                     for(int i = 0; i < len; i++){
+                        if(counter > 15){
+                            throw new CircleInjectionError("There is cycle in injection");
+                        }
                         arguments[i] = this.getComponent(type_of_parameters[i]);
                     }
                     constructor.setAccessible(true);
@@ -61,7 +66,14 @@ public class ContainerClass implements Container{
             constructor.setAccessible(true);
             return constructor.newInstance();
         }catch(Exception e){
+            System.out.println(e.getMessage());
         }
         return null;
+    }
+}
+
+class CircleInjectionError extends Exception{
+    public CircleInjectionError(String msg){
+        super(msg);
     }
 }
